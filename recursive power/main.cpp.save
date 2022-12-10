@@ -1,0 +1,92 @@
+#include <iostream>
+
+using namespace std;
+
+long long int power( long long int value , long long int pw )
+{
+    if ( pw == 0 ) return 1;
+    return value * power( value , pw - 1 );
+}
+
+long long int fast_power( long long int value , int pw )
+{
+    if ( pw == 0 ) return 1LL;
+    if ( pw == 1 ) return value;
+    return ( pw%2 ? value : 1LL ) * fast_power( value * value , pw / 2 );
+}
+
+bool valid ( string s )
+{
+    if ( s.front() != '-' && s.front() != '+' && isdigit( s.front() ) == false )
+        return false;
+
+
+    if ( isdigit( s.front() ) == false ) s.erase( 0 , 1 );
+    for ( char chr : s )
+        if ( isdigit( chr ) == false ) return false;
+    return true;
+}
+
+int main()
+{
+
+    int quere = 0 , number , pw; string numberStr , pwStr;
+    cout << "Enter the number of test case you want to test : "; cin >> quere;
+
+    while ( quere-- )
+    {
+        cout << "Enter the number : "; cin >> numberStr;
+        cout << "Enter the power  : "; cin >> pwStr;
+
+        if ( valid( numberStr ) == true && valid( pwStr ) == true )
+        {
+            char sign = '+';
+            if ( isdigit( numberStr.front() ) == false )
+            {
+                sign = ( numberStr.front() == '+' ? '+' : '-' );
+                numberStr.erase( 0 , 1 );
+            }
+
+            number = atoi( numberStr.c_str() );
+            if ( sign == '-' ) number *= -1;
+
+
+            sign = '+';
+            if ( isdigit( pwStr.front() ) == false )
+            {
+                sign = ( pwStr.front() == '+' ? '+' : '-' );
+                pwStr.erase( 0 , 1 );
+            }
+
+            pw = atoi( pwStr.c_str() );
+            if ( sign == '-' ) pw *= -1;
+
+        }
+        else
+            number = 0 , pw = 0;
+
+        
+        cout << pw << " " << number << "\n";
+        
+        
+        
+        if ( number == 0 && pw == 0 )
+        {
+            cout << "UNDEFIND\n"; continue;
+        }
+
+        if ( pw < 0 )
+            cout << "( " << number << " ) power ( " << pw << " )  = " << 1.0/power( number , -1*pw )      << "\n";
+        else
+            cout << "( " << number << " ) power ( " << pw << " )  = " << power( number , pw )      << "\n";
+
+        if ( pw < 0 )
+            cout << "( " << number << " ) power ( " << pw << " )  = " << 1.0/fast_power( number , -1*pw ) << "\n";
+        else
+            cout << "( " << number << " ) power ( " << pw << " )  = " << fast_power( number , pw ) << "\n";
+
+        cout << "\n\n"; system( "Pause" ); system( "CLS" );
+    }
+    system( "Pause" );
+    return 0;
+}
